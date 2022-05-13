@@ -1,6 +1,9 @@
-package danhba;
+package Directory;
 
-import javax.sound.midi.Soundbank;
+import manage.DirectoryManage;
+import model.FileDocGhi;
+import model.PhoneDirectory;
+
 import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -26,7 +29,7 @@ public class Main {
             System.out.println("Enter your choice: ");
             do {
                 if (choice < 1 || choice > 8) {
-                    System.out.println("SOS!!!!Không có lựa chọn này, Mời nhập lựa chọn khác: ");
+                    System.out.println("SOS!!!! not find choice ");
                 }
                 try {
                     choice = sc.nextInt();
@@ -51,7 +54,7 @@ public class Main {
                    System.out.println("Enter address: ");
                    String address = sc.nextLine();
                    System.out.println("Enter Email: ");
-                   String email = sc.nextLine();
+                   String email = directoryManage1.checkEmail();
                    System.out.println("Enter Facebook: ");
                    String facebook = sc.nextLine();
                    System.out.println("Enter sex: ");
@@ -72,17 +75,16 @@ public class Main {
                }
                 }
             }
-
             if (choice == 3) {
                 System.out.println("Enter phonenumber need edit");
-                int phonenumber1 = sc.nextInt();
+                String phonenumber1 = directoryManage1.checkPhoneNumber();
                 sc.nextLine();
                 System.out.println("Enter name: ");
                 String name = sc.nextLine();
                 System.out.println("Enter address: ");
                 String address = sc.nextLine();
                 System.out.println("Enter Email: ");
-                String email = sc.nextLine();
+                String email = directoryManage1.checkEmail();
                 System.out.println("Enter Facebook: ");
                 String facebook = sc.nextLine();
                 System.out.println("Enter sex: ");
@@ -92,28 +94,26 @@ public class Main {
                 System.out.println("Enter birdth: ");
                 String birdth = sc.nextLine();
                 System.out.println("Enter phonenumber:");
-                String phonenumber = sc.nextLine();
-                PhoneDirectory sosua = new PhoneDirectory(name, address, email, facebook, sex, group, birdth, phonenumber);
-                directoryManage1.edit(phonenumber1, sosua);
+                String phonenumber = directoryManage1.checkPhoneNumber();
+                PhoneDirectory num = new PhoneDirectory(name, address, email, facebook, sex, group, birdth, phonenumber);
+                directoryManage1.edit(phonenumber1, num);
                 System.out.println(ANSI_BLUE+"Successfull"+ANSI_RESET);
+                FileDocGhi.writerToFile(directoryManage1.phoneDirectoryList);
             }
             if (choice == 4) {
                 System.out.println("Enter phonenumber need remove");
-                int number = sc.nextInt();
-                if (directoryManage1.search(number) != -1) {
+                sc.nextLine();
+
+                String number = sc.nextLine();
                     directoryManage1.delete(number);
-                    System.out.println(ANSI_BLUE + "Successfull" + ANSI_RESET);
                     FileDocGhi.writerToFile(directoryManage1.phoneDirectoryList);
-                } else {
-                    System.out.println("No find number");
-                }
+
             }
             if (choice == 5) {
                 System.out.println("Enter phonenumber need find");
-                String num = sc.nextLine();
+                String num = directoryManage1.checkPhoneNumber();
                 directoryManage1.findByPhoneNumber(num);
             }
-
             if (choice == 6) {
                 FileDocGhi.writerToFile(directoryManage1.phoneDirectoryList);
                 System.out.println("Done !!");

@@ -1,16 +1,13 @@
-package danhba;
+package manage;
 
+import model.PhoneDirectory;
 import validate.Validate;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class DirectoryManage{
-    List<PhoneDirectory> phoneDirectoryList = new ArrayList<>();
-
+    public List<PhoneDirectory> phoneDirectoryList = new ArrayList<>();
 
     public DirectoryManage() {
 
@@ -24,28 +21,29 @@ public class DirectoryManage{
     public void add(PhoneDirectory phoneNumber){
         phoneDirectoryList.add(phoneNumber);
     }
-    public int search(int phoneNumber){
+    public int search(String phoneNumber){
         for (int i = 0; i < this.phoneDirectoryList.size(); i++) {
             if (this.phoneDirectoryList.get(i).getPhoneNumber().equals(phoneNumber)){
                 return i;
             }
         }return -1;
     }
-    public void edit(int phoneNumber, PhoneDirectory phoneDirectory){
-       int indexOf = search(phoneNumber);
-       if (indexOf == -1){
-           System.out.println("ko có");
-       }else {
-           phoneDirectoryList.set(indexOf,phoneDirectory);
-       }
-    }
-    public void delete(int phoneNumber){
-        for (int i = 0; i < this.phoneDirectoryList.size(); i++) {
-            if (search(phoneNumber)!= -1){
-                phoneDirectoryList.remove(search(phoneNumber));
-            }else
-                System.out.println("Không có");
+    public void edit(String phoneNumber, PhoneDirectory phoneDirectory){
+        for (int i = 0; i < phoneDirectoryList.size() ; i++) {
+            if (phoneDirectoryList.get(i).getPhoneNumber().equals(phoneNumber)){
+                phoneDirectoryList.set(i,phoneDirectory);
+            }
         }
+    }
+    public void delete(String phoneNumber){
+        int indexOf = search(phoneNumber);
+        if (indexOf == -1) {
+            System.out.println( "Not find" );
+        } else {
+            phoneDirectoryList.remove(indexOf);
+            System.out.println( "Successfull!" );
+        }
+
     }
     public void findByPhoneNumber(String phoneNumber){
         int dem = 0;
@@ -55,7 +53,7 @@ public class DirectoryManage{
                 dem++;
             }
         }if (dem==0){
-            System.out.println("Không tìm thấy số điện thoại nào");
+            System.out.println("not find");
         }
     }
     Validate validate = new Validate();
@@ -73,5 +71,17 @@ public class DirectoryManage{
         }
         return num;
     }
-
+    public String checkEmail(){
+        String mail;
+        while (true){
+            String mail1 = sc.nextLine();
+            if (!validate.validateEmail(mail1)){
+                System.out.println("Không trùng");
+            }else {
+                mail = mail1;
+                break;
+            }
+        }
+        return mail;
+    }
 }

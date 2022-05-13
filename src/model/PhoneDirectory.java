@@ -1,4 +1,4 @@
-package danhba;
+package model;
 
 public class PhoneDirectory {
     private String name,address,email,facebook,sex,group,birdth;
